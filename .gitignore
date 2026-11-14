@@ -1,7 +1,5 @@
-# Build output is generated from src/ by `npm run build`.
-dist/*
-# The packaged extension is committed so it can be downloaded without a toolchain.
-!dist/*.zip
 node_modules/
+# Build output; regenerate with `npm run build` in fetch-player.
+**/dist/ext/
 *.log
 .DS_Store
