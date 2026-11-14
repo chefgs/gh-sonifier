@@ -12,18 +12,55 @@ Adds a player **under the graph on a GitHub profile page**. It reads the squares
 the page, so it makes no network request at all and asks for **no permissions**. Click any
 square to hear that day. Exports MIDI.
 
-```
-chrome://extensions → Developer mode → Load unpacked → pick page-player/
-```
+No build step — the folder loads as it is.
 
-Then open any GitHub profile. No build step; the folder loads as it is.
+1. Download this repo (**Code → Download ZIP**, then unzip) or `git clone` it. Keep the
+   folder somewhere permanent: Chrome loads it from disk every time, so deleting it
+   uninstalls the extension.
+2. Open `chrome://extensions` (Edge: `edge://extensions`, Brave: `brave://extensions`).
+3. Turn on **Developer mode**, top right.
+4. Click **Load unpacked** and select the `page-player/` folder — the one containing
+   `manifest.json`. Do not select the repo root.
+5. Open any GitHub profile, for example `https://github.com/octocat`.
+6. The player appears **under the contribution graph**. Press **Play**, or click any square
+   to hear that day.
+
+Switching the year on the graph rebuilds the player for that year.
+
+**If the player does not appear**
+
+- Hard reload the profile page: `Cmd+Shift+R` (macOS) or `Ctrl+Shift+R`. GitHub loads the
+  calendar after the page, so the first paint can race it.
+- Confirm you are on a profile page. It only mounts where a contribution graph exists, not on
+  repos, issues or settings.
+- Check `chrome://extensions` for an **Errors** button on the card, and the page's own
+  DevTools console.
+
+**After editing the files**, press the reload icon on the extension card, then refresh the
+profile page. Both steps are needed.
 
 ## [`fetch-player/`](fetch-player/) — the other approach
 
 A standalone tab where you **paste any username** and it fetches that profile's calendar
 itself. Plays any profile without navigating to it, at the cost of a `host_permissions` grant
-for `github.com/users/*` and a parser for GitHub's HTML. Needs a build, has 74 tests, and
-[documents itself at length](fetch-player/README.md).
+for `github.com/users/*` and a parser for GitHub's HTML.
+
+> **Not verified in a browser, and known to have issues.** Its checks are all at the Node
+> level — 74 tests and a clean typecheck — which says the code does what it intends, not that
+> the extension works. Use `page-player`.
+
+It needs a build:
+
+```bash
+cd fetch-player
+npm install          # needs Node 23.6+
+npm run build        # outputs dist/ext
+```
+
+Then **Load unpacked → `fetch-player/dist/ext/`** and click the toolbar icon to open the app
+in a tab. A prebuilt zip is committed at `fetch-player/dist/` if you would rather skip the
+toolchain: unzip it and load that folder instead. It [documents itself at
+length](fetch-player/README.md).
 
 ## Which one is better
 
