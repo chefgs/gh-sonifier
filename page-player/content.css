@@ -1,0 +1,10 @@
+/* Highlights on GitHub's own graph while the music plays. */
+table.ContributionCalendar-grid td.ContributionCalendar-day.sonify-cur {
+  outline: 2px solid #fb8500 !important;
+  outline-offset: 1px;
+  position: relative;
+  z-index: 2;
+}
+table.ContributionCalendar-grid.sonify-started td.ContributionCalendar-day.sonify-ahead {
+  opacity: 0.35;
+}
